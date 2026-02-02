@@ -1,0 +1,24 @@
+{
+  "name": "@assistant-ui/ux-primitives",
+  "version": "1.0.0",
+  "private": false,
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@assistant-ui/react": "0.12.3"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@10.19.0"
+}
