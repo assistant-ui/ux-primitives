@@ -1,0 +1,37 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build outputs
+dist/
+build/
+.out/
+.next/
+.turbo/
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+.env
+.env.local
+.env.*.local
+
+# editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# temporary files
+*.swp
+*.swo
+*.tmp
+
+# coverage
+coverage/
+
+# misc
+.cache/
