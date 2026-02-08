@@ -1,5 +1,4 @@
 {
-  "root": "apps/docs",
-  "buildCommand": "cd ../.. && pnpm build",
+  "buildCommand": "turbo run build --filter=@assistant-ui/ux-primitives-docs",
   "installCommand": "pnpm install --frozen-lockfile"
 }
