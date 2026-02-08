@@ -2,12 +2,20 @@
   "name": "@assistant-ui/ux-primitives",
   "version": "1.0.0",
   "private": false,
+  "type": "module",
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "rm -rf dist && tsc",
+    "dev": "tsc --watch"
   },
   "dependencies": {
     "@assistant-ui/react": "0.12.3",
@@ -17,8 +25,7 @@
     "react": ">=18"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "tsup": "^8.0.0",
+    "@types/react": "^19.0.0",
     "typescript": "^5.0.0"
   },
   "packageManager": "pnpm@10.19.0"

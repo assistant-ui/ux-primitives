@@ -1,0 +1,11 @@
+{
+  "title": "Primitives",
+  "pages": [
+    "composer-action-status",
+    "copy-button",
+    "message-action-bar",
+    "suggestion-chips",
+    "thread-empty",
+    "scroll-to-bottom"
+  ]
+}

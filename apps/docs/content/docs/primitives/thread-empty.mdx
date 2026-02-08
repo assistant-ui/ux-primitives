@@ -1,0 +1,119 @@
+---
+title: ThreadEmpty
+description: Welcome state with icon, greeting, and optional suggestion chips.
+---
+
+## Overview
+
+`ThreadEmpty` is a single component for the thread welcome/empty state. It wraps `ThreadPrimitive.Empty` and renders a centered layout with an icon, greeting text, optional subtitle, and optional suggestion chips.
+
+This is the first primitive that **composes another UX primitive** — it uses `SuggestionChips` internally when suggestions are provided.
+
+## Demo
+
+This shows the default welcome state with suggestion chips.
+
+<ThreadEmptyDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    <ThreadEmpty
+      greeting="How can I help you?"
+      suggestions={[
+        { prompt: "Write a poem", label: "Write a poem", description: "about the ocean" },
+        "Help me plan a trip",
+      ]}
+    />
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <ThreadPrimitive.Empty>
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <div className="flex size-12 items-center justify-center rounded-full border ...">
+          U
+        </div>
+        <p className="mt-4 text-xl ...">
+          How can I help you?
+        </p>
+        <div className="mt-6 w-full max-w-lg">
+          <div className="grid grid-cols-2 gap-2">
+            <ThreadPrimitive.Suggestion prompt="Write a poem" send className="...">
+              <span>Write a poem</span>
+              <span>about the ocean</span>
+            </ThreadPrimitive.Suggestion>
+            ...
+          </div>
+        </div>
+      </div>
+    </ThreadPrimitive.Empty>
+    ```
+  </Tab>
+</Tabs>
+
+## Props
+
+<TypeTable
+  type={{
+    icon: {
+      type: "ReactNode",
+      description: "Icon text or node displayed in the avatar circle.",
+      default: '"U"',
+    },
+    renderIcon: {
+      type: "() => ReactNode",
+      description: "Custom render function to replace the default icon entirely.",
+    },
+    greeting: {
+      type: "string",
+      description: "Main greeting text.",
+      default: '"How can I help you today?"',
+    },
+    subtitle: {
+      type: "string",
+      description: "Optional subtitle below the greeting.",
+    },
+    suggestions: {
+      type: "SuggestionItem[]",
+      description: "Optional list of suggestions. If provided, renders SuggestionChips.",
+    },
+    suggestionSend: {
+      type: "boolean",
+      description: "Whether suggestion chips auto-send on click.",
+    },
+    className: {
+      type: "string",
+      description: "Class for the outer container.",
+    },
+    iconClassName: {
+      type: "string",
+      description: "Class for the icon circle.",
+    },
+    greetingClassName: {
+      type: "string",
+      description: "Class for the greeting text.",
+    },
+    subtitleClassName: {
+      type: "string",
+      description: "Class for the subtitle text.",
+    },
+    suggestionsWrapperClassName: {
+      type: "string",
+      description: "Class for the wrapper around SuggestionChips.",
+    },
+    suggestionsClassName: {
+      type: "string",
+      description: "Class for the SuggestionChips grid container.",
+    },
+    suggestionChipClassName: {
+      type: "string",
+      description: "Class for individual suggestion chips.",
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ThreadPrimitive.Empty` — only renders when thread has zero messages
+- `SuggestionChips` — composed internally for the suggestions grid

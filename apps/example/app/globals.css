@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../node_modules/@assistant-ui/ux-primitives/dist";
 
 :root {
   --background: #ffffff;

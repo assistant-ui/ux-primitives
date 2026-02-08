@@ -1,0 +1,81 @@
+---
+title: ComposerActionStatus
+description: A send/cancel button that auto-switches based on thread state.
+---
+
+## Overview
+
+`ComposerActionStatus` replaces the common pattern of conditionally rendering a Send button when idle and a Cancel button when running. It reads the thread and composer state and renders the appropriate action automatically.
+
+## Demo
+
+Try typing in the input, sending a message, and watch the button change between idle, composing, and running states.
+
+<ComposerActionStatusDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    <ComposerPrimitive.Root>
+      <ComposerPrimitive.Input />
+      <ComposerActionStatus />
+    </ComposerPrimitive.Root>
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <ComposerPrimitive.Root>
+      <ComposerPrimitive.Input />
+
+      {/* Conditional rendering based on thread state */}
+      <AuiIf condition={({ thread }) => !thread.isRunning}>
+        <ComposerPrimitive.Send>
+          <ArrowUpIcon />
+        </ComposerPrimitive.Send>
+      </AuiIf>
+      <AuiIf condition={({ thread }) => thread.isRunning}>
+        <ComposerPrimitive.Cancel>
+          <StopIcon />
+        </ComposerPrimitive.Cancel>
+      </AuiIf>
+    </ComposerPrimitive.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+| State | Condition | Renders |
+|-------|-----------|---------|
+| **idle** | Not running, composer is empty | Muted send button (disabled) |
+| **composing** | Not running, composer has text | Active send button |
+| **running** | Thread is running | Cancel/stop button |
+
+## Props
+
+<TypeTable
+  type={{
+    idleButtonClassName: {
+      type: "string",
+      description: "Class for the idle (empty composer) send button.",
+    },
+    buttonClassName: {
+      type: "string",
+      description: "Class for the composing/running action button.",
+    },
+    iconClassName: {
+      type: "string",
+      description: "Class for the icon inside the button.",
+    },
+    renderVisual: {
+      type: "(state: 'idle' | 'composing' | 'running') => ReactNode",
+      description: "Custom render function to replace the default icons entirely.",
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ComposerPrimitive.Send` — for idle and composing states
+- `ComposerPrimitive.Cancel` — for running state
+- Uses `useThread()` and `useComposer()` hooks internally to derive state

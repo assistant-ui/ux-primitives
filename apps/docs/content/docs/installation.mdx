@@ -1,0 +1,55 @@
+---
+title: Installation
+description: Add UX Primitives to your assistant-ui project.
+---
+
+## Prerequisites
+
+UX Primitives requires:
+- `@assistant-ui/react` >= 0.12.3
+- `react` >= 18
+- Tailwind CSS v4 (for default styling)
+
+## Install
+
+```bash
+npm install @assistant-ui/ux-primitives
+```
+
+## Tailwind Setup
+
+UX Primitives ships with default Tailwind classes. For Tailwind to detect these classes, add a `@source` directive to your CSS file pointing at the package's `dist` directory:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@source "../node_modules/@assistant-ui/ux-primitives/dist";
+```
+
+> The `@source` path is relative to the CSS file. Adjust based on your project structure.
+
+## Import
+
+```tsx
+import {
+  ComposerActionStatus,
+  CopyButton,
+  MessageActionBar,
+  SuggestionChips,
+  ThreadEmpty,
+  ScrollToBottom,
+} from "@assistant-ui/ux-primitives";
+```
+
+## Styling
+
+Every component ships with sensible default Tailwind classes (dark theme). You can override any class via `className` props:
+
+```tsx
+<MessageActionBar
+  className="flex gap-2 bg-gray-100"
+  buttonClassName="rounded-full p-1"
+  actions={["copy", "reload"]}
+/>
+```
+
+When you pass a `className` prop, it **replaces** the default — it does not merge. This gives you full control without fighting specificity.

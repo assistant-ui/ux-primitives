@@ -12,8 +12,7 @@ export function ComposerActionVisual({
     case "running":
       return <StopIcon className={className} />;
     case "composing":
-      return <ArrowUpIcon className={className} />;
     default:
-      return <ArrowUpIcon className={className} style={{ opacity: 0.4 }} />;
+      return <ArrowUpIcon className={className} />;
   }
 }
