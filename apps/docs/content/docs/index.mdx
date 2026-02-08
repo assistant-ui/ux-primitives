@@ -1,0 +1,70 @@
+---
+title: Getting Started
+description: State-aware UX patterns for assistant-ui that eliminate chat UI boilerplate.
+---
+
+## What is UX Primitives?
+
+UX Primitives is an opt-in library of **state-aware, drop-in components** built on top of [assistant-ui](https://github.com/assistant-ui/assistant-ui) primitives.
+
+Each component replaces **20-60 lines** of manual wiring with a single, configurable component — while still giving you full control over styling and behavior.
+
+## Why?
+
+Building a chat UI with assistant-ui primitives gives you maximum flexibility, but common patterns require a lot of boilerplate:
+
+- Toggling Send/Cancel buttons based on thread state
+- Showing copy-with-feedback buttons on messages
+- Configuring action bars with copy, reload, edit actions
+- Rendering suggestion chips on empty threads
+- Managing scroll-to-bottom visibility
+
+UX Primitives handles all of this for you, while keeping the same composability you're used to.
+
+## Quick Example
+
+<Tabs items={["After (UX Primitives)", "Before (Manual)"]}>
+  <Tab value="After (UX Primitives)">
+    ```tsx
+    import { MessageActionBar } from "@assistant-ui/ux-primitives";
+
+    const AssistantMessage = () => (
+      <MessagePrimitive.Root>
+        <MessagePrimitive.Content />
+        <MessageActionBar actions={["copy", "reload"]} />
+      </MessagePrimitive.Root>
+    );
+    ```
+  </Tab>
+  <Tab value="Before (Manual)">
+    ```tsx
+    const AssistantMessage = () => (
+      <MessagePrimitive.Root>
+        <MessagePrimitive.Content />
+        <ActionBarPrimitive.Root
+          hideWhenRunning
+          autohide="not-last"
+          autohideFloat="single-branch"
+        >
+          <ActionBarPrimitive.Copy asChild>
+            <button>
+              {/* need conditional icon toggle logic */}
+              <CopyIcon />
+            </button>
+          </ActionBarPrimitive.Copy>
+          <ActionBarPrimitive.Reload asChild>
+            <button>
+              <ReloadIcon />
+            </button>
+          </ActionBarPrimitive.Reload>
+        </ActionBarPrimitive.Root>
+      </MessagePrimitive.Root>
+    );
+    ```
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+- [Installation](/docs/installation) — add UX Primitives to your project
+- [Primitives](/docs/primitives) — browse all available components

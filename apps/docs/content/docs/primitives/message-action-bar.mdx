@@ -1,0 +1,106 @@
+---
+title: MessageActionBar
+description: Config-driven action bar for messages — copy, reload, edit, speak.
+---
+
+## Overview
+
+`MessageActionBar` is a single component that replaces the typical 40-60 lines of action bar boilerplate. Pass an array of action names and it renders the correct buttons with proper icons, visibility logic, and behavior.
+
+## Demo
+
+Send a message, then hover over either message to see the action bars. The assistant message has copy + reload, the user message has edit.
+
+<MessageActionBarDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    {/* Assistant message */}
+    <MessageActionBar actions={["copy", "reload"]} />
+
+    {/* User message */}
+    <MessageActionBar actions={["edit"]} />
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <ActionBarPrimitive.Root
+      hideWhenRunning
+      autohide="not-last"
+      autohideFloat="single-branch"
+    >
+      <ActionBarPrimitive.Copy asChild>
+        <button className="group ...">
+          <CopyIcon className="group-data-[copied]:hidden" />
+          <CheckIcon className="hidden group-data-[copied]:block" />
+        </button>
+      </ActionBarPrimitive.Copy>
+      <ActionBarPrimitive.Reload asChild>
+        <button>
+          <ReloadIcon />
+        </button>
+      </ActionBarPrimitive.Reload>
+    </ActionBarPrimitive.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## Available Actions
+
+| Action | Description | Typical Use |
+|--------|-------------|-------------|
+| `"copy"` | Copy message to clipboard with icon toggle | Assistant messages |
+| `"reload"` | Regenerate the assistant response | Assistant messages |
+| `"edit"` | Edit a user message | User messages |
+| `"speak"` | Read the message aloud | Assistant messages |
+
+## Props
+
+<TypeTable
+  type={{
+    actions: {
+      type: '("copy" | "reload" | "edit" | "speak")[]',
+      description: "Which actions to render, in order.",
+      default: '["copy", "reload"]',
+    },
+    className: {
+      type: "string",
+      description: "Class for the action bar container.",
+    },
+    buttonClassName: {
+      type: "string",
+      description: "Class for each action button.",
+    },
+    iconClassName: {
+      type: "string",
+      description: "Class for action icons.",
+    },
+    copyIconClassName: {
+      type: "string",
+      description: "Class specifically for the copy icon (overrides iconClassName for the copy action).",
+    },
+    hideWhenRunning: {
+      type: "boolean",
+      description: "Hide the bar while the thread is running.",
+      default: "true",
+    },
+    autohide: {
+      type: '"always" | "not-last" | "never"',
+      description: "When to auto-hide the bar.",
+      default: '"not-last"',
+    },
+    autohideFloat: {
+      type: '"always" | "single-branch" | "never"',
+      description: "Float behavior for auto-hiding.",
+      default: '"single-branch"',
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ActionBarPrimitive.Root` — container with visibility config
+- `ActionBarPrimitive.Copy` / `Reload` / `Edit` / `Speak` — individual actions
+- Internally composes `CopyButton` for the copy action
+- Must be rendered inside a message context (`MessagePrimitive.Root`)

@@ -1,1 +1,6 @@
 export * from "./primitives/composer-action-status";
+export * from "./primitives/copy-button";
+export * from "./primitives/message-action-bar";
+export * from "./primitives/suggestion-chips";
+export * from "./primitives/scroll-to-bottom";
+export * from "./primitives/thread-empty";

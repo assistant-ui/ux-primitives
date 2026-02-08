@@ -1,0 +1,103 @@
+---
+title: SuggestionChips
+description: Grid of suggestion buttons for welcome screens and contextual prompts.
+---
+
+## Overview
+
+`SuggestionChips` renders a grid of suggestion buttons from a static list. Each chip wraps `ThreadPrimitive.Suggestion` which handles setting composer text or auto-sending on click.
+
+## Demo
+
+Click any chip to send the suggestion immediately.
+
+<SuggestionChipsDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    <SuggestionChips
+      suggestions={[
+        {
+          prompt: "Write a poem about the ocean",
+          label: "Write a poem",
+          description: "about the ocean",
+        },
+        "Help me plan a trip",
+      ]}
+    />
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <div className="grid grid-cols-2 gap-2">
+      <ThreadPrimitive.Suggestion
+        prompt="Write a poem about the ocean"
+        send
+        className="..."
+      >
+        <span className="font-medium">Write a poem</span>
+        <span className="text-muted">about the ocean</span>
+      </ThreadPrimitive.Suggestion>
+
+      <ThreadPrimitive.Suggestion
+        prompt="Help me plan a trip"
+        send
+        className="..."
+      >
+        <span className="font-medium">Help me plan a trip</span>
+      </ThreadPrimitive.Suggestion>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Simple Strings
+
+You can also pass plain strings — they're used as both prompt and label.
+
+<SuggestionChipsSimpleDemo />
+
+```tsx
+<SuggestionChips
+  suggestions={["Tell me a joke", "What's the weather?", "Write an email", "Summarize this article"]}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    suggestions: {
+      type: "SuggestionItem[]",
+      description: "List of suggestions. Each can be a string or { prompt, label?, description? }.",
+    },
+    send: {
+      type: "boolean",
+      description: "Whether clicking a chip sends the message immediately.",
+      default: "true",
+    },
+    className: {
+      type: "string",
+      description: "Class for the grid container.",
+    },
+    chipClassName: {
+      type: "string",
+      description: "Class for each chip button.",
+    },
+    titleClassName: {
+      type: "string",
+      description: "Class for the label/title text.",
+    },
+    descriptionClassName: {
+      type: "string",
+      description: "Class for the description text.",
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ThreadPrimitive.Suggestion` — handles click-to-send and disabled state
+- Does **not** require a message context — works at the thread level
+- Typically used inside `ThreadPrimitive.Empty` or `ThreadEmpty`

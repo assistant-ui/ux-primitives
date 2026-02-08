@@ -1,0 +1,80 @@
+---
+title: ScrollToBottom
+description: Floating button that appears when scrolled away from the latest messages.
+---
+
+## Overview
+
+`ScrollToBottom` is a floating button that appears when the user scrolls up in the thread. Clicking it smooth-scrolls back to the latest message. It auto-hides when already at the bottom.
+
+## Demo
+
+Send a few messages to fill the thread, then scroll up. The floating arrow button will appear at the bottom.
+
+<ScrollToBottomDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    <div className="relative flex-1">
+      <ThreadPrimitive.Viewport>
+        {/* messages */}
+      </ThreadPrimitive.Viewport>
+      <ScrollToBottom />
+    </div>
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <div className="relative flex-1">
+      <ThreadPrimitive.Viewport>
+        {/* messages */}
+      </ThreadPrimitive.Viewport>
+      <ThreadPrimitive.ScrollToBottom asChild>
+        <button className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border bg-zinc-900 p-2 shadow-lg hover:bg-zinc-800">
+          <ArrowDownIcon className="size-4 text-white/60" />
+        </button>
+      </ThreadPrimitive.ScrollToBottom>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Layout Requirement
+
+The button uses `position: absolute` by default, so it needs a **relative-positioned parent** to float correctly:
+
+```tsx
+<div className="relative min-h-0 flex-1">
+  <ThreadPrimitive.Viewport className="h-full overflow-y-auto">
+    {/* ... */}
+  </ThreadPrimitive.Viewport>
+  <ScrollToBottom />
+</div>
+```
+
+> The `min-h-0` is important for flexbox layouts — it allows the container to shrink below its content height, enabling proper scrolling.
+
+## Props
+
+<TypeTable
+  type={{
+    className: {
+      type: "string",
+      description: "Class for the button.",
+    },
+    iconClassName: {
+      type: "string",
+      description: "Class for the arrow icon.",
+    },
+    renderIcon: {
+      type: "() => ReactNode",
+      description: "Custom render function to replace the default arrow icon.",
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ThreadPrimitive.ScrollToBottom` — handles scroll behavior and disabled state
+- Auto-hides via `disabled:hidden` when the viewport is at the bottom

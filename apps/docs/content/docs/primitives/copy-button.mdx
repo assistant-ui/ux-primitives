@@ -1,0 +1,75 @@
+---
+title: CopyButton
+description: One-click copy with animated icon toggle — zero hook dependencies.
+---
+
+## Overview
+
+`CopyButton` wraps `ActionBarPrimitive.Copy` and provides a visual toggle between a copy icon and a check icon. The toggle is entirely CSS-driven using the `data-copied` attribute — no hooks needed.
+
+## Demo
+
+Send a message, then hover over the assistant response to see the copy button. Click it to see the icon toggle.
+
+<CopyButtonDemo />
+
+<Tabs items={["After", "Before"]}>
+  <Tab value="After">
+    ```tsx
+    <MessagePrimitive.Root>
+      <MessagePrimitive.Content />
+      <CopyButton />
+    </MessagePrimitive.Root>
+    ```
+  </Tab>
+  <Tab value="Before">
+    ```tsx
+    <MessagePrimitive.Root>
+      <MessagePrimitive.Content />
+
+      <ActionBarPrimitive.Copy asChild>
+        <button className="group ...">
+          {/* Conditional icon based on copied state */}
+          <CopyIcon className="group-data-[copied]:hidden" />
+          <CheckIcon className="hidden group-data-[copied]:block" />
+        </button>
+      </ActionBarPrimitive.Copy>
+    </MessagePrimitive.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## How It Works
+
+1. `ActionBarPrimitive.Copy` handles the clipboard API call
+2. After copying, it sets a `data-copied` attribute on the button for `copiedDuration` ms
+3. `CopyButtonVisual` uses Tailwind's `group-data-[copied]` variant to swap icons
+4. No state hooks required — purely CSS-driven
+
+## Props
+
+<TypeTable
+  type={{
+    className: {
+      type: "string",
+      description: "Class for the icon elements.",
+    },
+    buttonClassName: {
+      type: "string",
+      description: "Class for the button wrapper.",
+    },
+    copiedDuration: {
+      type: "number",
+      description: "How long the check icon shows after copying (ms).",
+    },
+    renderVisual: {
+      type: "() => ReactNode",
+      description: "Custom render function to replace the default icon toggle.",
+    },
+  }}
+/>
+
+## Underlying Primitives
+
+- `ActionBarPrimitive.Copy` — handles clipboard and `data-copied` attribute
+- Must be rendered inside a message context (`MessagePrimitive.Root`)
