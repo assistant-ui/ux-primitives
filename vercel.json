@@ -1,0 +1,5 @@
+{
+  "root": "apps/docs",
+  "buildCommand": "cd ../.. && pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile"
+}
