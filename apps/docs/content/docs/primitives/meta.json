@@ -6,6 +6,8 @@
     "message-action-bar",
     "suggestion-chips",
     "thread-empty",
-    "scroll-to-bottom"
+    "scroll-to-bottom",
+    "branch-navigation",
+    "message-status"
   ]
 }

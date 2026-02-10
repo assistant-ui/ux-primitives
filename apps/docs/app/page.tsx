@@ -99,24 +99,24 @@ export default function HomePage() {
             </p>
             <pre className="overflow-x-auto text-xs leading-relaxed text-fd-muted-foreground">
               {`<ActionBarPrimitive.Root
-                  hideWhenRunning
-                  autohide="not-last"
-                  autohideFloat="single-branch"
-                >
-                  <ActionBarPrimitive.Copy asChild>
-                    <button>
-                      <AuiIf condition={...}>
-                        <CheckIcon />
-                      </AuiIf>
-                      <AuiIf condition={...}>
-                        <CopyIcon />
-                      </AuiIf>
-                    </button>
-                  </ActionBarPrimitive.Copy>
-                  <ActionBarPrimitive.Reload asChild>
-                    <button><ReloadIcon /></button>
-                  </ActionBarPrimitive.Reload>
-                </ActionBarPrimitive.Root>`}
+  hideWhenRunning
+  autohide="not-last"
+  autohideFloat="single-branch"
+>
+  <ActionBarPrimitive.Copy asChild>
+    <button>
+      <AuiIf condition={...}>
+        <CheckIcon />
+      </AuiIf>
+        <AuiIf condition={...}>
+        <CopyIcon />
+      </AuiIf>
+    </button>
+  </ActionBarPrimitive.Copy>
+  <ActionBarPrimitive.Reload asChild>
+    <button><ReloadIcon /></button>
+  </ActionBarPrimitive.Reload>
+</ActionBarPrimitive.Root>`}
             </pre>
           </div>
           <div className="rounded-lg border border-fd-border bg-fd-card p-4">
@@ -125,8 +125,8 @@ export default function HomePage() {
             </p>
             <pre className="overflow-x-auto text-xs leading-relaxed text-fd-foreground">
               {`<MessageActionBar
-                  actions={["copy", "reload"]}
-                />`}
+  actions={["copy", "reload"]}
+/>`}
             </pre>
           </div>
         </div>
