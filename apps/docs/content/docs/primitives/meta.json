@@ -9,6 +9,7 @@
     "scroll-to-bottom",
     "branch-navigation",
     "message-status",
-    "edit-composer"
+    "edit-composer",
+    "follow-up-suggestions"
   ]
 }

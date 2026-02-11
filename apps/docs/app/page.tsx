@@ -48,6 +48,11 @@ const primitives = [
     description: "Inline message editor with cancel and save actions.",
     href: "/docs/primitives/edit-composer",
   },
+  {
+    name: "FollowUpSuggestions",
+    description: "Dynamic suggestion chips after assistant responses.",
+    href: "/docs/primitives/follow-up-suggestions",
+  },
 ];
 
 export default function HomePage() {

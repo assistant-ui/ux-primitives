@@ -11,6 +11,7 @@ import {
   BranchNavigation,
   ComposerActionStatus,
   EditComposer,
+  FollowUpSuggestions,
   MessageActionBar,
   MessageStatus,
   ScrollToBottom,
@@ -20,7 +21,19 @@ import { mockModelAdapter } from "../lib/mock-model-adapter";
 import type { FC } from "react";
 
 export const Assistant: FC = () => {
-  const runtime = useLocalRuntime(mockModelAdapter);
+  const runtime = useLocalRuntime(mockModelAdapter, {
+    adapters: {
+      suggestion: {
+        async generate() {
+          return [
+            { prompt: "Tell me more about this" },
+            { prompt: "Can you give an example?" },
+            { prompt: "What are the alternatives?" },
+          ];
+        },
+      },
+    },
+  });
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
@@ -77,6 +90,10 @@ const Thread: FC = () => {
               AssistantMessage,
             }}
           />
+
+          <div className="mx-auto w-full max-w-3xl">
+            <FollowUpSuggestions />
+          </div>
         </ThreadPrimitive.Viewport>
 
         {/*
