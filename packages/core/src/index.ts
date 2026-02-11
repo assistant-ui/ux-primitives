@@ -7,3 +7,4 @@ export * from "./primitives/thread-empty";
 export * from "./primitives/branch-navigation";
 export * from "./primitives/message-status";
 export * from "./primitives/edit-composer";
+export * from "./primitives/follow-up-suggestions";
