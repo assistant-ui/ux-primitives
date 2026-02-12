@@ -12,8 +12,50 @@ let responseIndex = 0;
 
 export const mockModelAdapter: ChatModelAdapter = {
   async *run({ abortSignal }) {
-    const text = RESPONSES[responseIndex % RESPONSES.length]!;
+    const idx = responseIndex % (RESPONSES.length + 1);
     responseIndex++;
+
+    // Every 6th message: emit a tool call to demo ToolCallRenderer
+    if (idx === RESPONSES.length) {
+      const toolCallId = `call_${Date.now()}`;
+
+      // 1. Yield tool call in "running" state (no result yet)
+      yield {
+        content: [
+          {
+            type: "tool-call" as const,
+            toolCallId,
+            toolName: "get_weather",
+            args: { location: "Paris, France", units: "celsius" },
+            argsText: JSON.stringify({ location: "Paris, France", units: "celsius" }),
+          },
+        ],
+      };
+
+      await new Promise((r) => setTimeout(r, 1200));
+      if (abortSignal.aborted) return;
+
+      // 2. Yield tool call with result
+      yield {
+        content: [
+          {
+            type: "tool-call" as const,
+            toolCallId,
+            toolName: "get_weather",
+            args: { location: "Paris, France", units: "celsius" },
+            argsText: JSON.stringify({ location: "Paris, France", units: "celsius" }),
+            result: { temperature: 22, condition: "Sunny", humidity: "45%" },
+          },
+          {
+            type: "text" as const,
+            text: "The weather in Paris is 22°C and sunny.",
+          },
+        ],
+      };
+      return;
+    }
+
+    const text = RESPONSES[idx]!;
 
     // Simulate streaming by yielding one character at a time
     for (let i = 0; i < text.length; i++) {

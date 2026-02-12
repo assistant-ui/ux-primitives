@@ -1,0 +1,90 @@
+---
+title: ToolCallRenderer
+description: Display tool calls with automatic status-aware UI — spinner, result, and error handling out of the box.
+---
+
+## Overview
+
+`ToolCallRenderer` is a drop-in fallback component for rendering any tool call. It automatically handles all status states — spinning while the tool runs, a green checkmark when it completes, and an error icon on failure. Click the header to expand arguments and results.
+
+## Demo
+
+<ToolCallRendererDemo />
+
+## When to use
+
+- Display tool calls in agent apps without building custom UI per tool
+- Use as a `Fallback` to handle any tool not given a specific renderer
+- Show real-time status during tool execution (running → complete → error)
+- Inspect tool arguments and results in a collapsible panel
+
+## Features
+
+- **Status-aware**: Automatically shows spinner, checkmark, error, or warning based on `status.type`
+- **Collapsible body**: Click header to expand/collapse arguments and result
+- **Pretty-printed JSON**: Arguments and results are formatted for readability
+- **Error display**: Distinguishes between successful results and error results (`isError`)
+- **Zero config**: Works as a `ToolCallMessagePartComponent` with no extra props required
+
+## Props
+
+`ToolCallRenderer` implements the `ToolCallMessagePartComponent` interface from `@assistant-ui/react`. All props are passed automatically by the runtime — no manual wiring needed.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `toolName` | string | Name of the tool that was called |
+| `argsText` | string | Stringified arguments passed to the tool |
+| `result` | unknown | Tool return value (undefined while running) |
+| `isError` | boolean | Whether the result represents an error |
+| `status` | MessagePartStatus | Current execution status |
+
+## Basic Usage
+
+```tsx
+import { ToolCallRenderer } from "@assistant-ui/ux-primitives";
+
+export function AssistantMessage() {
+  return (
+    <MessagePrimitive.Root>
+      <MessagePrimitive.Parts
+        components={{
+          Text: ({ text }) => <span>{text}</span>,
+          tools: { Fallback: ToolCallRenderer },
+        }}
+      />
+    </MessagePrimitive.Root>
+  );
+}
+```
+
+## Per-tool Override
+
+You can use `ToolCallRenderer` as a fallback while still providing custom UIs for specific tools:
+
+```tsx
+<MessagePrimitive.Parts
+  components={{
+    Text: ({ text }) => <span>{text}</span>,
+    tools: {
+      by_name: {
+        purchase_stock: PurchaseStockUI,  // custom UI for this tool
+      },
+      Fallback: ToolCallRenderer,         // generic fallback for all others
+    },
+  }}
+/>
+```
+
+## Underlying Primitives
+
+`ToolCallRenderer` uses the `ToolCallMessagePartComponent` interface from `@assistant-ui/react`. The runtime passes props including `toolName`, `args`, `argsText`, `result`, `isError`, `status`, `addResult`, and `resume` directly to the component.
+
+Status states handled:
+- **`running`** — Tool is currently executing (spinner)
+- **`complete`** + no error — Tool finished successfully (green check + result)
+- **`complete`** + `isError: true` — Tool returned an error (red icon + error message)
+- **`incomplete`** — Execution was cancelled or interrupted (warning icon)
+
+## Migration Notes
+
+> TODO: migrate to store — internal state management will be updated when the store API is stable

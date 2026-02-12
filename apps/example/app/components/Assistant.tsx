@@ -20,6 +20,7 @@ import {
   MessageStatus,
   ScrollToBottom,
   ThreadEmpty,
+  ToolCallRenderer,
 } from "@assistant-ui/ux-primitives";
 import { mockModelAdapter } from "../lib/mock-model-adapter";
 import type { FC } from "react";
@@ -116,7 +117,7 @@ const Thread: FC = () => {
       <Composer />
 
       <p className="pb-2 text-center text-xs text-zinc-500">
-        UX Primitives — testing ComposerActionStatus + MessageActionBar + MessageStatus + ThreadEmpty + ScrollToBottom + BranchNavigation
+        UX Primitives — testing ComposerActionStatus + MessageActionBar + MessageStatus + ThreadEmpty + ScrollToBottom + BranchNavigation + ToolCallRenderer (send 6 messages to trigger)
       </p>
     </ThreadPrimitive.Root>
   );
@@ -153,7 +154,12 @@ const AssistantMessage: FC = () => {
       </div>
       <div className="flex-1 pt-1">
         <div className="text-white/90">
-          <MessagePrimitive.Content />
+          <MessagePrimitive.Parts
+            components={{
+              Text: ({ text }) => <span>{text}</span>,
+              tools: { Fallback: ToolCallRenderer },
+            }}
+          />
         </div>
         <MessageStatus />
         {/*
