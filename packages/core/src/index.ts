@@ -9,3 +9,4 @@ export * from "./primitives/message-status";
 export * from "./primitives/edit-composer";
 export * from "./primitives/follow-up-suggestions";
 export * from "./primitives/attachment";
+export * from "./primitives/tool-call-renderer";

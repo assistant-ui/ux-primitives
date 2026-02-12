@@ -58,6 +58,12 @@ const primitives = [
     description: "File and image attachments for composer and messages.",
     href: "/docs/primitives/attachment",
   },
+  {
+    name: "ToolCallRenderer",
+    description:
+      "Display tool calls with automatic status-aware UI — spinner, result, and error handling out of the box.",
+    href: "/docs/primitives/tool-call-renderer",
+  },
 ];
 
 export default function HomePage() {
