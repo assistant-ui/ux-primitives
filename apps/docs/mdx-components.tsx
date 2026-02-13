@@ -8,7 +8,10 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Callout } from "fumadocs-ui/components/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
-import { ComposerActionStatusDemo } from "@/components/demo/composer-action-status-demo";
+import {
+  ComposerActionStatusDemo,
+  CutomizedComposerActionStatusDemo,
+} from "@/components/demo/composer-action-status-demo";
 import { CopyButtonDemo } from "@/components/demo/copy-button-demo";
 import { MessageActionBarDemo } from "@/components/demo/message-action-bar-demo";
 import {
@@ -41,6 +44,7 @@ export function getMDXComponents(components?: Components): Components {
     Step,
     Steps,
     ComposerActionStatusDemo,
+    CutomizedComposerActionStatusDemo,
     CopyButtonDemo,
     MessageActionBarDemo,
     SuggestionChipsDemo,

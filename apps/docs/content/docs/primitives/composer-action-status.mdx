@@ -40,16 +40,17 @@ Try typing in the input, sending a message, and watch the button change between 
       </AuiIf>
     </ComposerPrimitive.Root>
     ```
+
   </Tab>
 </Tabs>
 
 ## States
 
-| State | Condition | Renders |
-|-------|-----------|---------|
-| **idle** | Not running, composer is empty | Muted send button (disabled) |
-| **composing** | Not running, composer has text | Active send button |
-| **running** | Thread is running | Cancel/stop button |
+| State         | Condition                      | Renders                      |
+| ------------- | ------------------------------ | ---------------------------- |
+| **idle**      | Not running, composer is empty | Muted send button (disabled) |
+| **composing** | Not running, composer has text | Active send button           |
+| **running**   | Thread is running              | Cancel/stop button           |
 
 ## Props
 
@@ -63,16 +64,43 @@ Try typing in the input, sending a message, and watch the button change between 
       type: "string",
       description: "Class for the composing/running action button.",
     },
-    iconClassName: {
-      type: "string",
-      description: "Class for the icon inside the button.",
-    },
     renderVisual: {
       type: "(state: 'idle' | 'composing' | 'running') => ReactNode",
-      description: "Custom render function to replace the default icons entirely.",
+      description:
+        "Custom render function to replace the default icons entirely.",
     },
   }}
 />
+
+  <Tabs items={["Preview", "Code"]}>
+    <Tab value="Preview">
+      <CutomizedComposerActionStatusDemo />
+    </Tab>
+    <Tab value="Code">
+      ```tsx
+      {/* Orange rounded square */}
+      <ComposerActionStatus
+        idleButtonClassName="flex size-8 rounded-lg items-center justify-center bg-orange-400/20 text-white/40"
+        buttonClassName="flex size-8 rounded-lg items-center justify-center bg-orange-400 text-white"
+      />
+
+      {/* Cyan circle with custom icon */}
+      <ComposerActionStatus
+        idleButtonClassName="flex size-8 rounded-full items-center justify-center bg-cyan-400/20 text-black/40"
+        buttonClassName="flex size-8 rounded-full items-center justify-center bg-cyan-400 text-black"
+        renderVisual={() => <ArrowRightIcon />}
+      />
+
+      {/* Minimal with PaperPlane icon */}
+      <ComposerActionStatus
+        idleButtonClassName="flex size-8 rounded-full items-center justify-center text-black/40 dark:text-white/40"
+        buttonClassName="flex size-8 rounded-full items-center justify-center text-black dark:text-white"
+        renderVisual={() => <PaperPlaneIcon />}
+      />
+      ```
+    </Tab>
+
+  </Tabs>
 
 ## Underlying Primitives
 
