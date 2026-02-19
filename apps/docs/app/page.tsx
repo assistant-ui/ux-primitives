@@ -75,7 +75,7 @@ export default function HomePage() {
     <main className="flex flex-1 flex-col items-center justify-center px-4 pt-8 pb-16 bg-fd-background">
       <div className="mx-auto max-w-3xl text-center">
         <h1 className="flex justify-center">
-          <ChordsLogoAnimated className="shimmer" />
+          <ChordsLogoAnimated />
         </h1>
         <p className="mt-4 text-lg text-fd-muted-foreground leading-relaxed">
           You own the UI. We handle the wiring.

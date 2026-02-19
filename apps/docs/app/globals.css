@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@100&family=Style+Script&display=swap");
 @import "tailwindcss";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
@@ -12,6 +11,11 @@
 
 .dark {
   --color-fd-background: #0A0A0A;
+}
+
+/* Golden shimmer for logo in dark mode */
+.dark .shimmer-logo-gold {
+  --shimmer-color: #FFD700;
 }
 
 /* Match sidebar bg to page background without affecting card components */

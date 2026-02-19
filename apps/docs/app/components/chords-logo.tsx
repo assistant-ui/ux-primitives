@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useId } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ChordsLogoProps {
   size?: "sm" | "lg";
@@ -61,105 +61,84 @@ export function ChordsLogo({
   );
 }
 
-export function ChordsLogoAnimated({ className }: { className?: string }) {
-  const [done, setDone] = useState(false);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const gradientRef = useRef<SVGRadialGradientElement>(null);
-  const id = useId();
-  const gradientId = `chords-glow-${id}`;
+export function ChordsLogoAnimated() {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const shimmerRef = useRef<HTMLSpanElement>(null);
+  const [shimmerDone, setShimmerDone] = useState(false);
 
-  const { height, fontSize } = sizes.lg;
-  const width = Math.round(fontSize * 0.55 * 6.5);
+  const v = variants.styled;
+  const { fontSize } = sizes.lg;
 
+  // Listen for shimmer animation end
   useEffect(() => {
-    const id = setTimeout(() => setDone(true), 100);
-    return () => clearTimeout(id);
+    const el = shimmerRef.current;
+    if (!el) return;
+    const onEnd = () => setShimmerDone(true);
+    el.addEventListener("animationiteration", onEnd);
+    return () => el.removeEventListener("animationiteration", onEnd);
   }, []);
 
-  const glowRef = useRef<SVGStopElement>(null);
-
+  // Mouse-follow radial glow via CSS background (active after shimmer)
   useEffect(() => {
+    if (!shimmerDone) return;
+
+    const el = textRef.current;
+    if (!el) return;
+
+    // Set initial state — show text in currentColor until mouse moves
+    el.style.backgroundImage = "linear-gradient(currentColor, currentColor)";
+    el.style.backgroundClip = "text";
+    (el.style as unknown as Record<string, string>).WebkitBackgroundClip = "text";
+    el.style.webkitTextFillColor = "transparent";
+
     const onMouseMove = (e: MouseEvent) => {
-      const svg = svgRef.current;
-      const gradient = gradientRef.current;
-      const glow = glowRef.current;
-      if (!svg || !gradient || !glow) return;
-
-      // Theme-aware glow color
       const isDark = document.documentElement.classList.contains("dark");
-      glow.setAttribute("stop-color", isDark ? "#f0c040" : "white");
+      const glowColor = isDark ? "#FFD700" : "white";
 
-      // Check if mouse is directly over the logo
-      const rect = svg.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       const overLogo =
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
         e.clientY >= rect.top &&
         e.clientY <= rect.bottom;
 
+      let x: number, y: number, r: number;
       if (overLogo) {
-        // Tight spotlight tracking the cursor on the letters
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        gradient.setAttribute("cx", String(x));
-        gradient.setAttribute("cy", String(y));
-        gradient.setAttribute("r", "0.2");
+        x = ((e.clientX - rect.left) / rect.width) * 100;
+        y = ((e.clientY - rect.top) / rect.height) * 100;
+        r = 40;
       } else {
-        // Map full page to logo area
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        gradient.setAttribute("cx", String(x));
-        gradient.setAttribute("cy", String(y));
-        gradient.setAttribute("r", "0.35");
+        x = (e.clientX / window.innerWidth) * 100;
+        y = (e.clientY / window.innerHeight) * 100;
+        r = 80;
       }
+
+      el.style.backgroundImage = `radial-gradient(circle ${r}px at ${x}% ${y}%, ${glowColor}, currentColor 60%)`;
     };
 
     document.addEventListener("mousemove", onMouseMove);
     return () => document.removeEventListener("mousemove", onMouseMove);
-  }, []);
+  }, [shimmerDone]);
+
+  const textStyle: React.CSSProperties = {
+    fontFamily: v.fontFamily,
+    fontWeight: v.fontWeight,
+    fontSize,
+    display: "inline-block",
+  };
 
   return (
-    <svg
-      ref={svgRef}
-      width={width}
-      height={height}
-      viewBox={`0 0 ${width} ${height}`}
-      className={className}
+    <span
+      ref={(node: HTMLSpanElement | null) => {
+        textRef.current = node;
+        shimmerRef.current = node;
+      }}
+      className={shimmerDone ? "shimmer-logo-gold" : "shimmer shimmer-logo-gold"}
+      style={textStyle}
       role="img"
       aria-label="Chords"
-      style={{ overflow: "visible" }}
     >
-      <defs>
-        <radialGradient
-          ref={gradientRef}
-          id={gradientId}
-          cx="0.5"
-          cy="0.5"
-          r="0.35"
-          gradientUnits="objectBoundingBox"
-        >
-          <stop ref={glowRef} offset="0%" stopColor="white" stopOpacity="1" />
-          <stop offset="50%" stopColor="currentColor" stopOpacity="1" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
-        </radialGradient>
-      </defs>
-      <text
-        x={width / 2}
-        y={fontSize * 0.82}
-        textAnchor="middle"
-        fontFamily="'Dancing Script', cursive"
-        fontSize={fontSize}
-        fill={`url(#${gradientId})`}
-        style={{
-          fontWeight: done ? 700 : 500,
-          transform: done ? "skewX(-8deg) scaleX(1)" : "skewX(-3deg) scaleX(0.95)",
-          transformOrigin: "center",
-          transition:
-            "font-weight 1.2s ease-in-out, transform 1.2s ease-in-out",
-        }}
-      >
-        Chords
-      </text>
-    </svg>
+      Chords
+    </span>
   );
 }
